@@ -23,6 +23,10 @@ type VariablesMixIDs =
   | `mix_${MixID}_${MixType}_meter${'f1' | 'f2'}_peak_3s`
   | `mix_${MixID}_${MixType}_duration`
   | `mix_${MixID}_${MixType}_remaining`
+  | `mix_${MixID}_${MixType}_remaining_ss`
+  | `mix_${MixID}_${MixType}_remaining_ss.ms`
+  | `mix_${MixID}_${MixType}_remaining_mm.ss`
+  | `mix_${MixID}_${MixType}_remaining_mm.ss.ms`
   | `mix_${MixID}_${MixType}_position_panx`
   | `mix_${MixID}_${MixType}_position_pany`
   | `mix_${MixID}_${MixType}_position_zoomx`
@@ -93,6 +97,10 @@ export const mixDefinitions = async (instance: VMixInstance): Promise<CompanionV
         { name: `Mix ${id} ${type} Frame Delay`, variableId: `mix_${id.toLowerCase()}_${type.toLowerCase()}_framedelay` },
         { name: `Mix ${id} ${type} Duration`, variableId: `mix_${id.toLowerCase()}_${type.toLowerCase()}_duration` },
         { name: `Mix ${id} ${type} Remaining`, variableId: `mix_${id.toLowerCase()}_${type.toLowerCase()}_remaining` },
+        { name: `Mix ${id} ${type} Remaining ss`, variableId: `mix_${id.toLowerCase()}_${type.toLowerCase()}_remaining_ss` },
+        { name: `Mix ${id} ${type} Remaining ss.ms`, variableId: `mix_${id.toLowerCase()}_${type.toLowerCase()}_remaining_ss.ms` },
+        { name: `Mix ${id} ${type} Remaining mm:ss`, variableId: `mix_${id.toLowerCase()}_${type.toLowerCase()}_remaining_mm.ss` },
+        { name: `Mix ${id} ${type} Remaining mm:ss.ms`, variableId: `mix_${id.toLowerCase()}_${type.toLowerCase()}_remaining_mm.ss.ms` },
       )
 
       if (instance.config.variablesShowInputVolume) {
@@ -234,8 +242,16 @@ export const mixValues = async (instance: VMixInstance): Promise<VariablesMixVal
 
       if (inputRemaining !== null) {
         variables[`mix_${id}_${type}_remaining`] = inputRemaining.ms
+        variables[`mix_${id}_${type}_remaining_ss`] = inputRemaining.ss
+        variables[`mix_${id}_${type}_remaining_ss.ms`] = inputRemaining.ssms
+        variables[`mix_${id}_${type}_remaining_mm.ss`] = inputRemaining.mmss
+        variables[`mix_${id}_${type}_remaining_mm.ss.ms`] = inputRemaining.mmssms
       } else {
         variables[`mix_${id}_${type}_remaining`] = ''
+        variables[`mix_${id}_${type}_remaining_ss`] = ''
+        variables[`mix_${id}_${type}_remaining_ss.ms`] = ''
+        variables[`mix_${id}_${type}_remaining_mm.ss`] = ''
+        variables[`mix_${id}_${type}_remaining_mm.ss.ms`] = ''
       }
 
       if (instance.config.variablesShowInputPosition) {

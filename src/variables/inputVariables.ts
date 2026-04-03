@@ -18,6 +18,7 @@ type VariablesInputIDs =
   | `input_${string}_audio`
   | `input_${string}_solo`
   | `input_${string}_duration`
+  | `input_${string}_position`
   | `input_${string}_remaining`
   | `input_${string}_remaining_ss`
   | `input_${string}_remaining_ss.ms`
@@ -138,6 +139,7 @@ export const inputDefinitions = (instance: VMixInstance): CompanionVariableDefin
 
       if (input.duration > 1) {
         inputSet.add({ name: `Input ${title} Duration`, variableId: `input_${type}_duration` })
+        inputSet.add({ name: `Input ${title} Position`, variableId: `input_${type}_position` })
       }
 
       if (input.position !== undefined) {
@@ -366,6 +368,7 @@ export const inputValues = async (instance: VMixInstance): Promise<InstanceVaria
         const ms = (time: number): string => Math.floor((time / 100) % 10) + ''
 
         variables[`input_${type}_duration`] = `${mm(duration)}:${ss(duration)}.${ms(duration)}`
+        variables[`input_${type}_position`] = input.position
       }
 
       const inputDuration = calcDuration(input)
